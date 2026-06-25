@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "doctors" ALTER COLUMN "gender" DROP NOT NULL,
+ALTER COLUMN "gender" SET DEFAULT 'MALE';
+
+-- AlterTable
+ALTER TABLE "patients" ALTER COLUMN "gender" DROP NOT NULL,
+ALTER COLUMN "gender" SET DEFAULT 'MALE';

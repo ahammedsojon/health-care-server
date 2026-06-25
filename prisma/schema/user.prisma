@@ -1,0 +1,66 @@
+model User {
+    id                 String     @unique @default(uuid())
+    email              String     @unique
+    password           String
+    needPasswordChange Boolean    @default(true)
+    role               UserRole   @default(PATIENT)
+    status             UserStatus @default(ACTIVE)
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
+    patient            Patient?
+    admin              Admin?
+    doctor             Doctor?
+
+    @@map("users")
+}
+
+model Patient {
+    id           String   @unique @default(uuid())
+    name         String
+    email        String   @unique
+    profilePhoto String?
+    contactNo    String?
+    address      String?
+    gender       Gender?  @default(MALE)
+    isDeleted    Boolean  @default(false)
+    user         User     @relation(fields: [email], references: [email])
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@map("patients")
+}
+
+model Admin {
+    id           String   @unique @default(uuid())
+    name         String
+    email        String   @unique
+    profilePhoto String?
+    contactNo    String?
+    address      String?
+    isDeleted    Boolean  @default(false)
+    user         User     @relation(fields: [email], references: [email])
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@map("admins")
+}
+
+model Doctor {
+    id             String   @unique @default(uuid())
+    name           String
+    email          String   @unique
+    profilePhoto   String?
+    contactNo      String?
+    address        String?
+    gender         Gender?  @default(MALE)
+    designation    String
+    experience     String
+    qualifiaction  String
+    appointmentFee String
+    isDeleted      Boolean  @default(false)
+    user           User     @relation(fields: [email], references: [email])
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    @@map("doctors")
+}
