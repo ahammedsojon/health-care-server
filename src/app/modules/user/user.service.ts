@@ -1,8 +1,19 @@
 import bcrypt from "bcryptjs"
-import { CreateUserInput } from "./user.interface";
 import { prisma } from "../../shared/prisma";
 import { Request } from "express";
 import { fileUploader } from "../../helper/fileUploader";
+
+const getAll = async (payload: { page: number, limit: number, searchTerm: string, status: string, role: string }) => {
+    // const search = searchTerm || "";
+    const result = await prisma.patient.findMany({
+        where: {
+            name: {
+                contains: searchTerm,
+                mode: "insensitive"
+            }
+        }
+    })
+}
 
 const createPatient = async (req: Request) => {
     if (req.file) {
@@ -34,5 +45,6 @@ const createPatient = async (req: Request) => {
 }
 
 export const UserService = {
-    createPatient
+    createPatient,
+    getAll
 }
